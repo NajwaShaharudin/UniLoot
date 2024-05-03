@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1065650605834",
+    "project_id": "uniloot",
+    "storage_bucket": "uniloot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065650605834:android:2a0ae1e3c356830b63b4f3",
+        "android_client_info": {
+          "package_name": "com.example.uni_loot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2262sVrO0OYXtgbQO1NIeTzSH1piLytE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
