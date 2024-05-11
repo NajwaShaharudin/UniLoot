@@ -13,6 +13,7 @@ class UserModel {
   final bool isAdmin;
   final bool isActive;
   final dynamic createdOn;
+  final String city;
 
 
   UserModel({
@@ -28,6 +29,7 @@ class UserModel {
     required this.isAdmin,
     required this.isActive,
     required this.createdOn,
+    required this.city,
 
   });
 
@@ -66,6 +68,7 @@ class UserModel {
       isAdmin: json['isAdmin'],
       isActive: json['isActive'],
       createdOn: json['createdOn'].toString(),
+      city: json['isActive'],
 
     );
   }

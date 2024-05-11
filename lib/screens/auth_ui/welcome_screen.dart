@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:uni_loot/controllers/google_signin_controller.dart';
+import 'package:uni_loot/screens/auth_ui/signIn_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -52,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: Get.height/12,
                   ),
                   label: const Text("Sign in with Google",
-                  style: TextStyle(color: AppConstant.appTextOverWhite),
+                  style: TextStyle(color: AppConstant.appTextColor),
                   ),
                   onPressed: (){
                     _googleSignInController.signInWithGoogle();
@@ -79,7 +80,9 @@ class WelcomeScreen extends StatelessWidget {
                     label: const Text("Sign in with email",
                       style: TextStyle(color: AppConstant.appTextColor),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      Get.to(() => SignInScreen());
+                    },
                   ),
                 ),
               )
