@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+import 'package:uni_loot/widgets/banner_widget.dart';
 import 'package:uni_loot/widgets/drawer_widget.dart';
 
 class MainScreen extends StatelessWidget {
@@ -20,6 +22,21 @@ class MainScreen extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: DrawerWidget(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: Get.height/90.0,
+              ),
+              Text("UniLoot"),
+              //banner
+              BannerWidget(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
