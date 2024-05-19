@@ -48,7 +48,7 @@ class HeadingWidget extends StatelessWidget {
                 decoration: BoxDecoration
                   (borderRadius: BorderRadius.circular(20.0),
                   border: Border.all(
-                    color: AppConstant.appSecondaryColor,
+                    color: AppConstant.appTextOverWhite,
                     width: 1.5,
                   )
                 ),
@@ -59,7 +59,7 @@ class HeadingWidget extends StatelessWidget {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 12.0,
-                        color: AppConstant.appSecondaryColor),
+                        color: AppConstant.appTextOverWhite),
                   ),
                 ),
               ),

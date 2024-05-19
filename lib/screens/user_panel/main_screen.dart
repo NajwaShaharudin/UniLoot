@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 import 'package:uni_loot/widgets/banner_widget.dart';
+import 'package:uni_loot/widgets/category_widget.dart';
 import 'package:uni_loot/widgets/drawer_widget.dart';
+import 'package:uni_loot/widgets/flash_sales_widget.dart';
 
 import '../../widgets/heading_widget.dart';
 
@@ -32,7 +34,6 @@ class MainScreen extends StatelessWidget {
               SizedBox(
                 height: Get.height/90.0,
               ),
-              Text("UniLoot"),
 
               //banner
               BannerWidget(),
@@ -40,17 +41,21 @@ class MainScreen extends StatelessWidget {
               //heading
               HeadingWidget(
                 headingTitle: "Categories",
-                headingSubtitle: "According to your budget",
+                headingSubtitle: "All you need is here",
                 onTap: (){},
                 buttonText: "See More >",
               ),
 
+              CategoriesWidget(),
+
               HeadingWidget(
                 headingTitle: "Flash Sales",
-                headingSubtitle: "According to your budget",
+                headingSubtitle: "Grab now while stock last",
                 onTap: (){},
                 buttonText: "See More >",
               ),
+
+              FlashSalesWidget(),
             ],
           ),
         ),
