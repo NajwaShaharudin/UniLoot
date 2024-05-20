@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/screens/user_panel/all_categories_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 import 'package:uni_loot/widgets/banner_widget.dart';
 import 'package:uni_loot/widgets/category_widget.dart';
@@ -42,7 +43,7 @@ class MainScreen extends StatelessWidget {
               HeadingWidget(
                 headingTitle: "Categories",
                 headingSubtitle: "All you need is here",
-                onTap: (){},
+                onTap: ()=> Get.to(() => AllCategoriesScreen()),
                 buttonText: "See More >",
               ),
 
