@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
+import 'package:uni_loot/screens/user_panel/categoryProduct_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 import '../../models/categories_model.dart';
@@ -64,17 +66,22 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
               );
               return Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Container(
-                      child: FillImageCard(
-                        borderRadius: 20.0,
-                        width: Get.width / 2.3,
-                        heightImage: Get.height / 10,
-                        imageProvider: CachedNetworkImageProvider(categoriesModel.categoryImg),
-                        title: Center(
-                          child: Text(
-                            categoriesModel.categoryName, style: TextStyle(fontSize: 12.0),
+                  GestureDetector(
+                    onTap: () => Get.to(() => CategoryProductScreen(
+                        categoryId: categoriesModel.categoryId,
+                    )),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Container(
+                        child: FillImageCard(
+                          borderRadius: 20.0,
+                          width: Get.width / 2.3,
+                          heightImage: Get.height / 10,
+                          imageProvider: CachedNetworkImageProvider(categoriesModel.categoryImg),
+                          title: Center(
+                            child: Text(
+                              categoriesModel.categoryName, style: TextStyle(fontSize: 12.0),
+                            ),
                           ),
                         ),
                       ),
