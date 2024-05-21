@@ -7,6 +7,8 @@ import 'package:image_card/image_card.dart';
 import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
+import 'product_details_screen.dart';
+
 
 class AllItemScreen extends StatelessWidget {
   const AllItemScreen({super.key});
@@ -76,9 +78,7 @@ class AllItemScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        // onTap: () => Get.to(() => CategoryProductScreen(
-                        //   categoryId: categoriesModel.categoryId,
-                        // )),
+                        onTap: () => Get.to(() => ProductDetailsScreen(productModel: productModel)),
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Container(
