@@ -21,7 +21,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(iconTheme: IconThemeData(),
         backgroundColor: AppConstant.appMainColor,
         title: Text("All Categories"),
       ),

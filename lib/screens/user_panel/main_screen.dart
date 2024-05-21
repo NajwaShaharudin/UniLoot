@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/screens/user_panel/all_categories_screen.dart';
 import 'package:uni_loot/screens/user_panel/all_flash_sales_screen.dart';
+import 'package:uni_loot/screens/user_panel/all_item_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+import 'package:uni_loot/widgets/all_item_widgets.dart';
 import 'package:uni_loot/widgets/banner_widget.dart';
 import 'package:uni_loot/widgets/category_widget.dart';
 import 'package:uni_loot/widgets/drawer_widget.dart';
@@ -58,6 +60,18 @@ class MainScreen extends StatelessWidget {
               ),
 
               FlashSalesWidget(),
+
+              //heading
+              HeadingWidget(
+                headingTitle: "All items",
+                headingSubtitle: "View all items",
+                onTap: () => Get.to(() => AllItemScreen()),
+                buttonText: "See More >",
+              ),
+
+              AllItemsWidget(),
+
+
             ],
           ),
         ),
