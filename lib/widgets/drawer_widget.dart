@@ -60,7 +60,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.center,
-                      title: Text("Producst"),
+                      title: Text("Product"),
                       leading: Icon(Icons.production_quantity_limits),
                       trailing: Icon(Icons.arrow_forward),
                     ),
