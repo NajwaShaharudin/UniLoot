@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:uni_loot/widgets/drawer_widget.dart';
 import 'package:uni_loot/widgets/flash_sales_widget.dart';
 
 import '../../widgets/heading_widget.dart';
+import 'cart_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -28,6 +30,15 @@ class MainScreen extends StatelessWidget {
             AppConstant.appMainName,
           ),
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to (()=> CartScreen()),
+              child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.shopping_cart),
+            ),
+          ),
+        ],
       ),
       drawer: DrawerWidget(),
       body: SingleChildScrollView(
