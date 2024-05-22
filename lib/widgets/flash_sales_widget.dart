@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:uni_loot/models/product_model.dart';
+import 'package:uni_loot/screens/user_panel/product_details_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 import '../models/categories_model.dart';
@@ -66,34 +67,37 @@ class FlashSalesWidget extends StatelessWidget {
                 // );
                 return Row(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Container(
-                        child: FillImageCard(
-                          borderRadius: 20.0,
-                          width: Get.width / 3.5,
-                          heightImage: Get.height / 15,
-                          imageProvider: CachedNetworkImageProvider(
-                              productModel.productImages[0]),
-                          title: Center(
-                            child: Text(
-                              productModel.productName,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 10.0),
-                            ),
-                          ),
-                          footer: Row(
-                            children: [
-                              Text("RM ${productModel.salePrice}",
+                    GestureDetector(
+                      onTap: () => Get.to(() => ProductDetailsScreen(productModel: productModel)),
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Container(
+                          child: FillImageCard(
+                            borderRadius: 20.0,
+                            width: Get.width / 3.5,
+                            heightImage: Get.height / 15,
+                            imageProvider: CachedNetworkImageProvider(
+                                productModel.productImages[0]),
+                            title: Center(
+                              child: Text(
+                                productModel.productName,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 10.0),
                               ),
-                              SizedBox(
-                                width: 2.0,
-                              ),
-                              Text(" ${productModel.fullPrice}",
-                              style: TextStyle(fontSize: 10.0, color: AppConstant.appSecondaryColor, decoration: TextDecoration.lineThrough,),
-                              ),
-                            ],
+                            ),
+                            footer: Row(
+                              children: [
+                                Text("RM ${productModel.salePrice}",
+                                  style: TextStyle(fontSize: 10.0),
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Text(" ${productModel.fullPrice}",
+                                style: TextStyle(fontSize: 10.0, color: AppConstant.appSecondaryColor, decoration: TextDecoration.lineThrough,),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

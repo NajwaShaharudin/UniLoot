@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_card/image_card.dart';
+import 'package:uni_loot/screens/user_panel/product_details_screen.dart';
 import '../../models/product_model.dart';
 import '../../utils/app_constant.dart';
 
@@ -83,9 +84,9 @@ class _AllFlashSalesProductScreenState extends State<AllFlashSalesProductScreen>
                 return Row(
                   children: [
                     GestureDetector(
-                      // onTap: () => Get.to(() => CategoryProductScreen(
-                      //   categoryId: categoriesModel.categoryId,
-                      // )),
+                       onTap: () => Get.to(() => ProductDetailsScreen(
+                        productModel: productModel
+                       )),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Container(

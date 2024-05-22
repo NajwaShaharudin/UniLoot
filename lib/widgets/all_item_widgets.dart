@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:uni_loot/models/product_model.dart';
+import 'package:uni_loot/screens/user_panel/product_details_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 import '../models/categories_model.dart';
@@ -71,9 +72,9 @@ class AllItemsWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     GestureDetector(
-                      // onTap: () => Get.to(() => CategoryProductScreen(
-                      //   categoryId: categoriesModel.categoryId,
-                      // )),
+                       onTap: () => Get.to(() => ProductDetailsScreen(
+                         productModel: productModel,
+                       )),
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Container(
