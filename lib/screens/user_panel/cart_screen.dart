@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -10,6 +15,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+    User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,56 +23,100 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: AppConstant.appMainColor,
         title: Text('Your Cart'),
       ),
-      body: Container(
-        child: ListView.builder(
-            itemCount: 20,
-            shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index){
-              return Card(
-                elevation: 5,
-                color: AppConstant.appTextColor,
-                child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: AppConstant.appMainColor,
-                      child: Text("N"),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance.collection('cart').doc(user!.uid).collection('cartOrders').get(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+          if(snapshot.hasError) {
+            return Center(
+              child: Text("Error"),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: Get.height / 5,
+              child: Center(
+                child: CupertinoActivityIndicator(),
+              ),
+            );
+          }
+          if(snapshot.data!.docs.isEmpty){
+            return Center(child: Text("No product found!"),
+            );
+          }
+
+          if(snapshot.data != null) {
+            return  Container(
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index){
+                  final productData = snapshot.data!.docs[index];
+                  CartModel cartModel = CartModel(
+                    productId: productData['productId'],
+                    categoryId: productData['categoryId'],
+                    productName: productData['productName'],
+                    categoryName: productData['categoryName'],
+                    salePrice: productData['salePrice'],
+                    fullPrice: productData['fullPrice'],
+                    productImages: productData['productImages'],
+                    deliveryTime: productData['deliveryTime'],
+                    isSale: productData['isSale'],
+                    productDescription: productData['productDescription'],
+                    createdAt: productData['createdAt'],
+                    updatedAt: productData['updatedAt'],
+                    productQuantity: productData['productQuantity'],
+                    productTotalPrice: productData['productTotalPrice'],
+                  );
+                  return Card(
+                    elevation: 5,
+                    color: AppConstant.appTextColor,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: AppConstant.appMainColor,
+                        backgroundImage: NetworkImage(cartModel.productImages[0]),
+                      ),
+                      title: Text(cartModel.productName),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(cartModel.productTotalPrice.toString()),
+                          SizedBox(width: Get.width / 20.0,
+                          ),
+                          CircleAvatar(
+                            radius: 18.0,
+                            backgroundColor: AppConstant.appMainColor,
+                            child: Text('-'),
+                          ),
+                          SizedBox(width: Get.width / 20.0,
+                          ),
+                          CircleAvatar(
+                            radius: 18.0,
+                            backgroundColor: AppConstant.appMainColor,
+                            child: Text('+'),
+                          )
+                        ],
+                      ),
                     ),
-                    title: Text("New Dress for womens"),
-                  subtitle: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("2200"),
-                      SizedBox(width: Get.width / 20.0,
-                      ),
-                      CircleAvatar(
-                        radius: 18.0,
-                        backgroundColor: AppConstant.appMainColor,
-                        child: Text('-'),
-                      ),
-                      SizedBox(width: Get.width / 20.0,
-                      ),
-                      CircleAvatar(
-                        radius: 18.0,
-                        backgroundColor: AppConstant.appMainColor,
-                        child: Text('+'),
-                      )
-                    ],
-                  ),
-                  ),
-              );
-            },
-        ),
+                  );
+                },
+              ),
+            );
+          }
+
+          return Container();
+        },
       ),
+
       bottomNavigationBar: Container(
         margin: EdgeInsets.only(bottom: 5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Total"),
-            SizedBox(
-              width: Get.width / 40,
+            Text(
+              "Total: RM 50.30",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text("RM 50.30", style: TextStyle(fontWeight: FontWeight.bold),),
 
             Padding(
               padding: const EdgeInsets.all(8.0),

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/models/product_model.dart';
+import 'package:uni_loot/screens/user_panel/cart_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -25,6 +26,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppConstant.appMainColor,
         title: Text("Item Details"),
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to(() => CartScreen()),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.shopping_cart,
+              ),
+            ),
+          )
+        ],
       ),
       body: Container(
         child: Column(
