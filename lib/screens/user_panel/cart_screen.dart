@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/controllers/cart_price_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
@@ -19,6 +20,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
     User? user = FirebaseAuth.instance.currentUser;
+    final ItemPriceController itemPriceController = Get.put(ItemPriceController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +75,11 @@ class _CartScreenState extends State<CartScreen> {
                     createdAt: productData['createdAt'],
                     updatedAt: productData['updatedAt'],
                     productQuantity: productData['productQuantity'],
-                    productTotalPrice: productData['productTotalPrice'],
+                    productTotalPrice: double.parse(productData['productTotalPrice'].toString()),
                   );
+
+                  //calculate price
+                  itemPriceController.fetchItemPrice();
                   return SwipeActionCell(
                       key: ObjectKey(cartModel.productId),
                       trailingActions: [
@@ -172,20 +177,21 @@ class _CartScreenState extends State<CartScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Total: RM 50.30",
+            Obx(() =>  Text(
+              "Total RM ${itemPriceController.totalPrice.value.toStringAsFixed(1)}",
               style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             ),
 
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Material(
                 child: Container(
                   width: Get.width/2.0,
                   height: Get.height/18,
                   decoration: BoxDecoration(
                       color: AppConstant.appSecondaryColor,
-                      borderRadius:BorderRadius.circular((20.0),)
+                      borderRadius:BorderRadius.circular((30.0),)
                   ),
                   child: TextButton(
                     child: Text(
