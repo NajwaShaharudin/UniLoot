@@ -8,6 +8,7 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
+import 'package:uni_loot/screens/auth_ui/checkout_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 
@@ -198,7 +199,9 @@ class _CartScreenState extends State<CartScreen> {
                       "Checkout",
                       style: TextStyle(color: AppConstant.appTextColor),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      Get.to(() => CheckoutScreen());
+                    },
                   ),
                 ),
               ),
