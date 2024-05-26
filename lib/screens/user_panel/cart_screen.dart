@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,8 +7,8 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
-import 'package:uni_loot/screens/auth_ui/checkout_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+import 'checkout_screen.dart';
 
 
 class CartScreen extends StatefulWidget {

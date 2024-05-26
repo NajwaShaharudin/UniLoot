@@ -1,13 +1,15 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
+import 'package:uni_loot/controllers/customer_device_token_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+import '../../services/place_order_services.dart';
 
 
 class CheckoutScreen extends StatefulWidget {
@@ -20,6 +22,11 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   final ItemPriceController itemPriceController = Get.put(ItemPriceController());
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,90 +169,116 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
   }
-}
-
-void showCustomBottomSheet(){
-  Get.bottomSheet(
-    Container(height: Get.height * 0.8,
-    decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(16.0),
+  void showCustomBottomSheet(){
+    Get.bottomSheet(
+      Container(height: Get.height * 0.8,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16.0),
+          ),
         ),
-    ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: Container(
-                height: 55.0,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                child: Container(
+                  height: 55.0,
+                  child: TextFormField(
+                    controller: nameController,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                        labelText: 'Name',
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                        )
                     ),
-                    hintStyle: TextStyle(
-                      fontSize: 12,
-                    )
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: Container(
-                height: 55.0,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                      labelText: 'Phone Number',
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                      ),
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                      )
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                child: Container(
+                  height: 55.0,
+                  child: TextFormField(
+                    controller: phoneController,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                        labelText: 'Phone Number',
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                        )
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: Container(
-                height: 55.0,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Address',
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                      ),
-                      hintStyle: TextStyle(
-                        fontSize: 12,
-                      )
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                child: Container(
+                  height: 55.0,
+                  child: TextFormField(
+                    controller: addressController,
+                    decoration: InputDecoration(
+                        labelText: 'Address',
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                        )
+                    ),
                   ),
                 ),
               ),
-            ),
-            
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppConstant.appMainColor,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              ),
-                onPressed: (){},
+
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppConstant.appMainColor,
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                ),
+                onPressed: () async {
+                  // if(nameController.text != '' &&
+                  //     phoneController.text != '' &&
+                  //     addressController.text != '' ){
+                  //
+                  // }
+
+                  String name = nameController.text.trim();
+                  String phone = phoneController.text.trim();
+                  String address = addressController.text.trim();
+
+                  String customerToken = await getCustomerDeviceToken();
+
+                  //place order services
+                  placeOrder(
+                    context: context,
+                    customerName: name,
+                    customerPhone: phone,
+                    customerAddress: address,
+                    customerDeviceToken: customerToken,
+                  );
+                },
                 child: Text("Place Order", style: TextStyle(color: Colors.white)),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
-    ),
-    backgroundColor: Colors.transparent,
-    isDismissible: true,
-    enableDrag: true,
-    elevation: 6,
-  );
+      backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
+      elevation: 6,
+    );
+  }
+
 }
+
