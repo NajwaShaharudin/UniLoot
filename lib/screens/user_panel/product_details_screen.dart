@@ -151,7 +151,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 style: TextStyle(color: AppConstant.appTextColor),
                               ),
                               onPressed: (){
-                                //Get.to(() => SignInScreen());
+                                // sendMessageonWhatsApp(
+                                //   productModel: widget.productModel,
+                                // );
                               },
                             ),
                           ),
@@ -189,6 +191,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
     );
   }
+
+  // static Future<void> sendMessageonWhatsApp({
+  //   required ProductModel productModel,
+  // }) async {
+  //   final number = "+01156290036";
+  //   final message = "Hello UniLoot \n I want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
+  //
+  //   final url = ('https:/wa.me/$number?text=${Uri.encodeComponent(message)}');
+  //
+  //   if(await canLaunch(url)){
+  //     await launchUrl(url as Uri );
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   //check items exist or not
   Future<void> checkProductExistence({
