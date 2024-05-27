@@ -45,33 +45,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
             SizedBox(height:Get.height / 60,
             ),
-        CarouselSlider(
-        items: widget.productModel.productImages
-            .map(
-            (imageUrls) => ClipRRect(
-          borderRadius: BorderRadius.circular(10.0),
-      child: CachedNetworkImage(
-        imageUrl: imageUrls,
-        fit: BoxFit.cover,
-        width: Get.width - 10,
-        placeholder: (context, url) => ColoredBox(
-          color: Colors.white,
-          child: Center(
-            child: CupertinoActivityIndicator(),
-          ),
-        ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
-      ),
-    ),
-    )
-        .toList(),
-    options: CarouselOptions(
-    scrollDirection: Axis.horizontal,
-    autoPlay: true,
-    aspectRatio: 2.5,
-    viewportFraction: 1,
-    ),
-    ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: CachedNetworkImage(
+                imageUrl: widget.productModel.productImages[0], // Use the first image
+                fit: BoxFit.cover,
+                width: Get.width, // Set width to match screen width
+                height: Get.height / 2, // Adjust height as needed
+                placeholder: (context, url) => ColoredBox(
+                  color: Colors.white,
+                  child: Center(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            ),
             Padding(padding: EdgeInsets.all(8.0),
             child: Card(
               elevation: 5.0,

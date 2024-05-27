@@ -57,15 +57,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       trailing: Icon(Icons.arrow_forward),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: Text("Product"),
-                      leading: Icon(Icons.production_quantity_limits),
-                      trailing: Icon(Icons.arrow_forward),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  //   child: ListTile(
+                  //     titleAlignment: ListTileTitleAlignment.center,
+                  //     title: Text("Product"),
+                  //     leading: Icon(Icons.production_quantity_limits),
+                  //     trailing: Icon(Icons.arrow_forward),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: ListTile(
@@ -82,15 +82,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: Text("Contact"),
-                      leading: Icon(Icons.help),
-                      trailing: Icon(Icons.arrow_forward),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  //   child: ListTile(
+                  //     titleAlignment: ListTileTitleAlignment.center,
+                  //     title: Text("Contact"),
+                  //     leading: Icon(Icons.help),
+                  //     trailing: Icon(Icons.arrow_forward),
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: ListTile(

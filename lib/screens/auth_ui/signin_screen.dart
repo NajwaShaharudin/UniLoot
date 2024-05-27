@@ -32,6 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
       builder: (context , isKeyboardVisible) {
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: AppConstant.appSecondaryColor,
             title: Text("SIGN IN", style: TextStyle(color: AppConstant.appTextColor),
             ),

@@ -28,9 +28,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (context , isKeyboardVisible) {
         return Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: AppConstant.appSecondaryColor,
             title: Text(
-              "SIGN UP",
+              "SIGN UP" ,
               style: TextStyle(color: AppConstant.appTextColor),
             ),
           ),
@@ -45,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   Container(
                       alignment: Alignment.center,
-                      child: Text("Sign up to enjoy our apps!", style: TextStyle(
+                      child: Text("Sign up to explore our apps!", style: TextStyle(
                         color: AppConstant.appSecondaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
