@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
           child: Column (
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(child: Lottie.asset('assets/images/Animation - 1714632341819.json'),
+              Container(child: Image.asset('assets/images/shop-logo.jpg'),
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20.0),
