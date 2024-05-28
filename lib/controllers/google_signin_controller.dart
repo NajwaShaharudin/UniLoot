@@ -46,7 +46,7 @@ class GoogleSignInController extends GetxController{
               isAdmin: false,
               isActive: true,
               createdOn: DateTime.now(),
-              city: '',
+
               );
 
             await FirebaseFirestore.instance
