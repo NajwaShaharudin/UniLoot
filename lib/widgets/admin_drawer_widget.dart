@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uni_loot/screens/admin_panel/all_user_screen.dart';
 import 'package:uni_loot/screens/user_panel/cust_order_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
@@ -30,16 +31,10 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
           runSpacing: 10,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Najwa"),
-                subtitle: Text("Version 1.0"),
-                leading: CircleAvatar(
-                  radius: 22.0,
-                  backgroundColor: AppConstant.appMainColor,
-                  child: Text("N"),
-                ),
+                title: Text("Admin Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
               ),
             ),
             Divider(
@@ -60,9 +55,12 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
+                onTap: (){
+                  Get.to(() => AllUserScreen());
+                },
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text("Users"),
-                leading: Icon(Icons.production_quantity_limits),
+                leading: Icon(Icons.person),
                 trailing: Icon(Icons.arrow_forward),
               ),
             ),
