@@ -18,7 +18,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
         centerTitle: true,
-        title: Text("Admin Panel"),
+        title: Text("Admin Dashboard"),
       ),
 
       drawer: AdminDrawerWidget(),
