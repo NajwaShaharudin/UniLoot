@@ -7,167 +7,167 @@ import 'package:uni_loot/screens/admin_panel/single_order_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class DetailsCustomerOrderScreen extends StatelessWidget {
-
   String docId;
   String customerName;
+
   DetailsCustomerOrderScreen({
-    super.key, required this.docId, required this.customerName});
+    super.key,
+    required this.docId,
+    required this.customerName,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text(customerName),
+        title: Text(customerName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       ),
-      body:  FutureBuilder(
+      body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
-            .collection('orders').doc(docId)
+            .collection('orders')
+            .doc(docId)
             .collection('confirmOrders')
             .orderBy('createdAt', descending: true)
             .get(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-          if(snapshot.hasError) {
-            return Container(
-              child: const Center(
-                child: Text("Error"),
-              ),
-            );
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error", style: TextStyle(color: Colors.red)));
           }
-          if (snapshot.connectionState == ConnectionState.waiting){
-            return Container(
-              child: const Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            );
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CupertinoActivityIndicator());
           }
-          if(snapshot.data!.docs.isEmpty){
-            return Container(
-              child: const Center(
-                child: Text("No orders found!"),
-              ),
+
+          if (snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text("No orders found!", style: TextStyle(color: Colors.grey)),
             );
           }
 
-          if(snapshot.data != null) {
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  final data = snapshot.data!.docs[index];
-                  String orderDocId = data.id;
-                  OrderModel orderModel = OrderModel(
-                      productId: data['productId'],
-                      categoryId: data['categoryId'],
-                      productName: data['productName'],
-                      categoryName: data['categoryName'],
-                      salePrice: data['salePrice'],
-                      fullPrice: data['fullPrice'],
-                      productImages: data['productImages'],
-                      deliveryTime: data['deliveryTime'],
-                      isSale: data['isSale'],
-                      productDescription: data['productDescription'],
-                      createdAt: data['createdAt'],
-                      updatedAt: data ['updatedAt'],
-                      productQuantity: data['productQuantity'],
-                      productTotalPrice: data['productTotalPrice'],
-                      customerId: data['customerId'],
-                      status: data['status'],
-                      customerName: data['customerName'],
-                      customerPhone: data['customerPhone'],
-                      customerAddress: data['customerAddress'],
-                      customerDeviceToken: data['customerDeviceToken'],
-                  );
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(),
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              final data = snapshot.data!.docs[index];
+              String orderDocId = data.id;
 
-                  return Card(
-                    elevation: 5,
-                    child: ListTile(
-                      onTap: () => Get.to(() => SingleOrderScreen(
-                        docId: snapshot.data!.docs[index].id,
-                        orderModel:orderModel,
-                      )),
+                OrderModel orderModel = OrderModel(
+                productId: data['productId'],
+                categoryId: data['categoryId'],
+                productName: data['productName'],
+                categoryName: data['categoryName'],
+                salePrice: data['salePrice'],
+                fullPrice: data['fullPrice'],
+                productImages: data['productImages'],
+                deliveryTime: data['deliveryTime'],
+                isSale: data['isSale'],
+                productDescription: data['productDescription'],
+                createdAt: data['createdAt'],
+                updatedAt: data ['updatedAt'],
+                productQuantity: data['productQuantity'],
+                productTotalPrice: data['productTotalPrice'],
+                customerId: data['customerId'],
+                status: data['status'],
+                customerName: data['customerName'],
+                customerPhone: data['customerPhone'],
+                customerAddress: data['customerAddress'],
+                customerDeviceToken: data['customerDeviceToken'],
 
-                      leading: CircleAvatar(
-                        backgroundColor: AppConstant.appSecondaryColor,
-                        child: Text(data['customerName'][0]),
+              );
+
+              return Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ListTile(
+                  onTap: () => Get.to(() => SingleOrderScreen(
+                    docId: snapshot.data!.docs[index].id,
+                    orderModel: orderModel,
+                  )),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  leading: CircleAvatar(
+                    backgroundColor: AppConstant.appSecondaryColor,
+                    child: Text(data['customerName'][0], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  ),
+                  title: Text(data['customerName'], style: TextStyle(fontSize: 16)),
+                  subtitle: Text(orderModel.productName, style: TextStyle(fontSize: 14)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextButton.icon(
+                        onPressed: () => showBottomSheet(
+                          userDocId: docId,
+                          orderModel: orderModel,
+                          orderDocId: orderDocId,
+                        ),
+                        icon: Icon(Icons.more_vert, color: Colors.grey),
+                        label: Text(''),
                       ),
-                      title: Text(data['customerName']),
-                      subtitle: Text(orderModel.productName),
-                      trailing: InkWell(
-                        onTap: (){
-                          showBottomSheet(
-                            userDocId: docId,
-                            orderModel: orderModel,
-                            orderDocId: orderDocId,
-                          );
-                        },
-                        child: Icon(Icons.more_vert),
-                      ),
-
-                    ),
-                  );
-                }
-            );
-          }
-          return Container();
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
         },
       ),
     );
   }
 }
 
-void showBottomSheet({required String userDocId, required OrderModel orderModel, required String orderDocId}){
+void showBottomSheet({required String userDocId, required OrderModel orderModel, required String orderDocId}) {
   Get.bottomSheet(
-    Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
+      Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+              Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('orders')
+                            .doc(userDocId)
+                            .collection('confirmOrders')
+                            .doc(orderDocId)
+                            .update(
+                          {
+                            'status': false,
+                          },
+                        );
+                      }, child: Text('Pending')),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        await FirebaseFirestore.instance
+                            .collection('orders')
+                            .doc(userDocId)
+                            .collection('confirmOrders')
+                            .doc(orderDocId)
+                            .update(
+                          {
+                            'status': true,
+                          },
+                        );
+                      },
+                      child: Text('Delivered')),
+                ),
+              ],
+              )
+              ],
+          ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () async {
-                     await FirebaseFirestore.instance
-                          .collection('orders')
-                          .doc(userDocId)
-                          .collection('confirmOrders')
-                          .doc(orderDocId)
-                          .update(
-                        {
-                          'status': false,
-                        },
-                      );
-                    }, child: Text('Pending')),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () async {
-                      await FirebaseFirestore.instance
-                          .collection('orders')
-                          .doc(userDocId)
-                          .collection('confirmOrders')
-                          .doc(orderDocId)
-                          .update(
-                        {
-                          'status': true,
-                        },
-                      );
-                    },
-                    child: Text('Delivered')),
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
   );
 }
