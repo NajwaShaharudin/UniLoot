@@ -15,97 +15,107 @@ class AdminAllItems extends StatefulWidget {
 }
 
 class _AdminAllItems extends State<AdminAllItems> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("All Item"),
-          centerTitle: true,
-          backgroundColor: AppConstant.appMainColor,
-        ),
-        body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('products')
-              .orderBy('createdAt', descending: true)
-              .get(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-            if(snapshot.hasError) {
-              return Container(
-                child: Center(
-                  child: Text("Error"),
-                ),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.waiting){
-              return Container(
-                child: Center(
-                  child: CupertinoActivityIndicator(),
-                ),
-              );
-            }
-            if(snapshot.data!.docs.isEmpty){
-              return Container(
-                child: Center(
-                  child: Text("No items found!"),
-                ),
-              );
-            }
+      appBar: AppBar(
+        title: Text("All Items"),
+        centerTitle: true,
+        backgroundColor: AppConstant.appMainColor,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('products')
+            .orderBy('createdAt', descending: true)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error"));
+          }
 
-            if(snapshot.data != null) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    final data = snapshot.data!.docs[index];
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CupertinoActivityIndicator());
+          }
+
+          if (snapshot.data!.docs.isEmpty) {
+            return Center(child: Text("No items found!"));
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Add code to refresh the data
+            },
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16.0),
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                final data = snapshot.data!.docs[index];
 
                     ProductModel productModel = ProductModel(
-                        productId: data['productId'],
-                        categoryId: data['categoryId'],
-                        productName: data['productName'],
-                        categoryName: data['categoryName'],
-                        salePrice: data['salePrice'],
-                        fullPrice: data['fullPrice'],
-                        productImages: data['productImages'],
-                        deliveryTime: data['deliveryTime'],
-                        isSale: data['isSale'],
-                        productDescription: data['productDescription'],
-                        createdAt: data['createdAt'],
-                        updatedAt: data['updatedAt']
-                    );
+                    productId: data['productId'],
+                    categoryId: data['categoryId'],
+                    productName: data['productName'],
+                    categoryName: data['categoryName'],
+                    salePrice: data['salePrice'],
+                    fullPrice: data['fullPrice'],
+                    productImages: data['productImages'],
+                    deliveryTime: data['deliveryTime'],
+                    isSale: data['isSale'],
+                    productDescription: data['productDescription'],
+                    createdAt: data['createdAt'],
+                    updatedAt: data['updatedAt']
+                );
 
 
-                    return Card(
-                      elevation: 5,
-                      child: ListTile(
-                        onTap: () {
-                          Get.to(() => ItemDetailsScreen(
-                              productModel: productModel));
-                        },
-
-                        leading: CircleAvatar(
-                          backgroundColor: AppConstant.appSecondaryColor,
-                          backgroundImage: CachedNetworkImageProvider(
-                            productModel.productImages[0],
-                            errorListener: (err) {
-                              print('Error loading image');
-                              Icon(Icons.error);
-                            },
+                return InkWell(
+                  onTap: () => Get.to(
+                          () => ItemDetailsScreen(productModel: productModel)),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: CachedNetworkImage(
+                          imageUrl: productModel.productImages[0],
+                          width: 80.0,
+                          height: 80.0,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            color: Colors.grey[200],
+                            child: Center(child: CircularProgressIndicator()),
                           ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
-                        title: Text(productModel.productName),
-                        subtitle: Text(productModel.productId),
-                        trailing: Icon(Icons.arrow_forward_ios),
-
                       ),
-                    );
-                  }
-              );
-            }
-            return Container();
-          },
-        )
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productModel.productName,
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4.0),
+                            Text(
+                              productModel.productId,
+                              style: const TextStyle(fontSize: 14.0),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
