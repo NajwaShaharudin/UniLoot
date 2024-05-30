@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/product_model.dart';
+import 'package:uni_loot/screens/admin_panel/add_products_screen.dart';
 import 'package:uni_loot/screens/admin_panel/item_details_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
@@ -22,6 +23,15 @@ class _AdminAllItems extends State<AdminAllItems> {
         title: Text("All Items"),
         centerTitle: true,
         backgroundColor: AppConstant.appMainColor,
+        actions: [
+          GestureDetector(
+            onTap: () => Get.to(() => AddItemsScreen()),
+            child: Padding(
+                padding: const EdgeInsets.all(10.0),
+              child: Icon(Icons.add),
+            ),
+          )
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
