@@ -75,5 +75,10 @@ class AddProductImagesController extends GetxController {
       print(selectedImages.length);
     }
   }
+
+  void removeImages(int index){
+    selectedImages.removeAt(index);
+    update();
+  }
   }
 
