@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:uni_loot/screens/admin_panel/admin_all_items.dart';
 import 'package:uni_loot/screens/admin_panel/all_orders_screen.dart';
 import 'package:uni_loot/screens/admin_panel/all_user_screen.dart';
 import 'package:uni_loot/screens/user_panel/cust_order_screen.dart';
@@ -89,7 +90,7 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
                 ),
                 onTap: (){
                   Get.back();
-                  Get.to(() => CustomerOrderScreen());
+                  Get.to(() => AdminAllItems());
                 },
               ),
             ),
