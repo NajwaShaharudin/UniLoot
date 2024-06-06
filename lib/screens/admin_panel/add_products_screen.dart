@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/admin_product_img_controller.dart';
@@ -18,8 +17,13 @@ class AddItemsScreen extends StatelessWidget {
    CategoryController categoryController =
      Get.put(CategoryController());
 
-   isSaleController saleController =
-   Get.put(isSaleController());
+   isSaleController saleController = Get.put(isSaleController());
+
+   TextEditingController productNameController = TextEditingController();
+   TextEditingController salePriceController = TextEditingController();
+   TextEditingController fullPriceController = TextEditingController();
+   TextEditingController deliveryTimeController = TextEditingController();
+   TextEditingController productDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,7 @@ class AddItemsScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Is Sale"),
+                        Text("On Sale"),
                         Switch(
                             value: isSaleController.isSale.value,
                             activeColor: AppConstant.appMainColor,
@@ -124,6 +128,128 @@ class AddItemsScreen extends StatelessWidget {
                 ),
                 );
                 },
+            ),
+
+            //form
+            SizedBox(height: 5.0),
+            Container(
+              height: 65,
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextFormField(
+                cursorColor: AppConstant.appMainColor,
+                textInputAction: TextInputAction.next,
+                controller: productNameController,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  hintText: "Product Name",
+                  hintStyle: TextStyle(fontSize: 12.0),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+
+            Obx((){
+              return saleController.isSale.value ?  Container(
+                height: 65,
+                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  cursorColor: AppConstant.appMainColor,
+                  textInputAction: TextInputAction.next,
+                  controller: salePriceController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    hintText: "Sale Price",
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ) : SizedBox.shrink();
+            }),
+
+
+            SizedBox(height: 5.0),
+            Container(
+              height: 65,
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextFormField(
+                cursorColor: AppConstant.appMainColor,
+                textInputAction: TextInputAction.next,
+                controller: fullPriceController,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  hintText: "Full Price",
+                  hintStyle: TextStyle(fontSize: 12.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Container(
+              height: 65,
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextFormField(
+                cursorColor: AppConstant.appMainColor,
+                textInputAction: TextInputAction.next,
+                controller: deliveryTimeController,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  hintText: "Delivery Time",
+                  hintStyle: TextStyle(fontSize: 12.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0),
+            Container(
+              height: 65,
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextFormField(
+                cursorColor: AppConstant.appMainColor,
+                textInputAction: TextInputAction.next,
+                controller: productDescriptionController,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  hintText: "Product Description",
+                  hintStyle: TextStyle(fontSize: 12.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            ElevatedButton(
+                onPressed: (){},
+                child: Text("Upload"),
             )
           ],
         ),
