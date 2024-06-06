@@ -7,6 +7,8 @@ import 'package:uni_loot/controllers/category_controller.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 import 'package:uni_loot/widgets/admin_category_widget.dart';
 
+import '../../controllers/is_sale_controller.dart';
+
 class AddItemsScreen extends StatelessWidget {
    AddItemsScreen({super.key});
 
@@ -15,6 +17,9 @@ class AddItemsScreen extends StatelessWidget {
 
    CategoryController categoryController =
      Get.put(CategoryController());
+
+   isSaleController saleController =
+   Get.put(isSaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +100,31 @@ class AddItemsScreen extends StatelessWidget {
 
             //display category widget
             AdminCategoryWidget(),
+            
+            //isSale 
+            GetBuilder<isSaleController>(
+              init: isSaleController(),
+                builder: (isSaleController){
+                return Card(
+                  child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Is Sale"),
+                        Switch(
+                            value: isSaleController.isSale.value,
+                            activeColor: AppConstant.appMainColor,
+                            onChanged: (value){
+                              isSaleController.toggleIsSale(value);
+                            },
+                        )
+                      ],
+                    ),
+                ),
+                );
+                },
+            )
           ],
         ),
       ),
