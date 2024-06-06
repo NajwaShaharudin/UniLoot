@@ -3,13 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/admin_product_img_controller.dart';
+import 'package:uni_loot/controllers/category_controller.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+import 'package:uni_loot/widgets/admin_category_widget.dart';
 
 class AddItemsScreen extends StatelessWidget {
    AddItemsScreen({super.key});
 
   AddProductImagesController addProductImagesController =
       Get.put(AddProductImagesController());
+
+   CategoryController categoryController =
+     Get.put(CategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +92,9 @@ class AddItemsScreen extends StatelessWidget {
                     : const SizedBox.shrink();
                 },
             ),
+
+            //display category widget
+            AdminCategoryWidget(),
           ],
         ),
       ),
