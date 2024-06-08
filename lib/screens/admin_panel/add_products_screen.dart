@@ -7,6 +7,7 @@ import 'package:uni_loot/utils/app_constant.dart';
 import 'package:uni_loot/widgets/admin_category_widget.dart';
 
 import '../../controllers/is_sale_controller.dart';
+import '../../services/generate_ids_services.dart';
 
 class AddItemsScreen extends StatelessWidget {
    AddItemsScreen({super.key});
@@ -248,7 +249,10 @@ class AddItemsScreen extends StatelessWidget {
             ),
 
             ElevatedButton(
-                onPressed: (){},
+                onPressed: () async {
+                  String productId = await GenerateIds().generateProductId();
+                  print(productId);
+                },
                 child: Text("Upload"),
             )
           ],
