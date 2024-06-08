@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/admin_product_img_controller.dart';
 import 'package:uni_loot/controllers/category_controller.dart';
+import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 import 'package:uni_loot/widgets/admin_category_widget.dart';
 
@@ -35,7 +37,7 @@ class AddItemsScreen extends StatelessWidget {
         backgroundColor: AppConstant.appMainColor,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
           child: Column(
             children: [
@@ -90,7 +92,7 @@ class AddItemsScreen extends StatelessWidget {
                                       },
                                       child: const CircleAvatar(
                                         backgroundColor: AppConstant.appSecondaryColor,
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.close,
                                           color: AppConstant.appTextColor,
                                         ),
@@ -115,11 +117,11 @@ class AddItemsScreen extends StatelessWidget {
                   builder: (isSaleController){
                   return Card(
                     child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("On Sale"),
+                          const Text("On Sale"),
                           Switch(
                               value: isSaleController.isSale.value,
                               activeColor: AppConstant.appMainColor,
@@ -135,15 +137,15 @@ class AddItemsScreen extends StatelessWidget {
               ),
 
               //form
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Container(
                 height: 65,
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextFormField(
                   cursorColor: AppConstant.appMainColor,
                   textInputAction: TextInputAction.next,
                   controller: productNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 10.0,
                     ),
@@ -157,17 +159,17 @@ class AddItemsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
 
               Obx((){
                 return saleController.isSale.value ?  Container(
                   height: 65,
-                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextFormField(
                     cursorColor: AppConstant.appMainColor,
                     textInputAction: TextInputAction.next,
                     controller: salePriceController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
                       ),
@@ -180,11 +182,11 @@ class AddItemsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                ) : SizedBox.shrink();
+                ) : const SizedBox.shrink();
               }),
 
 
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Container(
                 height: 65,
                 margin: EdgeInsets.symmetric(horizontal: 10.0),
@@ -193,12 +195,12 @@ class AddItemsScreen extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                   controller: fullPriceController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 10.0,
                     ),
                     hintText: "Full Price",
-                    hintStyle: TextStyle(fontSize: 12.0),
-                    border: OutlineInputBorder(
+                    hintStyle: const TextStyle(fontSize: 12.0),
+                    border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10.0),
                       ),
@@ -206,20 +208,20 @@ class AddItemsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Container(
                 height: 65,
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextFormField(
                   cursorColor: AppConstant.appMainColor,
                   textInputAction: TextInputAction.next,
                   controller: deliveryTimeController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 10.0,
                     ),
                     hintText: "Delivery Time",
-                    hintStyle: TextStyle(fontSize: 12.0),
+                    hintStyle: const TextStyle(fontSize: 12.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10.0),
@@ -228,15 +230,15 @@ class AddItemsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 5.0),
+              const SizedBox(height: 5.0),
               Container(
                 height: 65,
-                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextFormField(
                   cursorColor: AppConstant.appMainColor,
                   textInputAction: TextInputAction.next,
                   controller: productDescriptionController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 10.0,
                     ),
@@ -253,18 +255,36 @@ class AddItemsScreen extends StatelessWidget {
 
               ElevatedButton(
                   onPressed: () async {
-                    // String productId = await GenerateIds().generateProductId();
+
                     // print(productId);
                     try {
                       EasyLoading.show();
                       await addProductImagesController.uploadFunction(addProductImagesController.selectedImages);
                       print(addProductImagesController.arrImagesUrl);
+                      String productId = await GenerateIds().generateProductId();
+
+                      ProductModel productModel = ProductModel(
+                          productId: productId,
+                          categoryId: categoryController.selectedCategoryId.toString(),
+                          productName: productNameController.text.trim(),
+                          categoryName: categoryController.selectedCategoryName.toString(),
+                          salePrice: salePriceController.text != ''? salePriceController.text.trim(): '',
+                          fullPrice: fullPriceController.text.trim(),
+                          productImages: addProductImagesController.arrImagesUrl,
+                          deliveryTime: deliveryTimeController.text.trim(),
+                          isSale: saleController.isSale.value,
+                          productDescription: productDescriptionController.text.trim(),
+                          createdAt: DateTime.now(),
+                          updatedAt: DateTime.now(),
+                      );
+                      
+                      await FirebaseFirestore.instance.collection('products').doc(productId).set(productModel.toMap());
                       EasyLoading.dismiss();
                     }catch (e){
                       print("Error: $e");
                     }
                   },
-                  child: Text("Upload"),
+                  child: const Text("Upload"),
               )
             ],
           ),
