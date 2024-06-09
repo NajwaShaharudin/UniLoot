@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:lottie/lottie.dart';
 import 'package:uni_loot/controllers/forgot_password_controller.dart';
-import 'package:uni_loot/screens/auth_ui/signup_screen.dart';
 import '../../utils/app_constant.dart';
 
 
@@ -41,7 +38,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   isKeyboardVisible? Text("Welcome to my App"):
                   Column(
                     children: [
-                      Lottie.asset('assets/images/Animation - 1714632341819.json')
+                      Center(
+                        child: Image.asset(
+                          'assets/images/shop-logo.jpg',
+                          width: MediaQuery.of(context).size.width <= 600 ? 200.0 : null,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -49,7 +51,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    width: Get.width,
+                    width: Get.width < 600 ? Get.width : 400.0,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
@@ -73,7 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                   Material(
                     child: Container(
-                      width: Get.width/ 2,
+                      width: Get.width/ 5,
                       height: Get.height/18,
                       decoration: BoxDecoration(
                           color: AppConstant.appSecondaryColor,
