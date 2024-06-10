@@ -54,29 +54,37 @@ class ItemDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
 
-              // Info Row with icons (consider using Iconly or similar package)
+              // Info Row with icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildInfoRow(Icons.monetization_on, productModel.fullPrice),
-                  _buildInfoRow(Icons.delivery_dining, productModel.deliveryTime),
+                  // _buildInfoRow(Icons.delivery_dining, productModel.deliveryTime),
                 ],
               ),
               const SizedBox(height: 16.0),
 
               // Sale badge (if applicable)
               if (productModel.isSale)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: Text(
-                    "Sale!",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      gradient: const LinearGradient(
+                        colors: [Colors.redAccent, Colors.orangeAccent],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+
+                    child: const Text(
+                      "Sale!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -93,7 +101,29 @@ class ItemDetailsScreen extends StatelessWidget {
       children: [
         Icon(icon, color: Colors.grey),
         const SizedBox(width: 8.0),
-        Text(text, style: const TextStyle(fontSize: 16.0)),
+        if (productModel.isSale)
+          Text(
+            productModel.salePrice,
+            style: const TextStyle(fontSize: 16.0),
+          ) else
+        Text(
+          productModel.fullPrice,
+          style: const TextStyle(fontSize: 16.0),
+        ),
+        const SizedBox(width: 8.0),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row
+            (children: [
+            const Icon(Icons.delivery_dining, size: 16.0, color: Colors.grey),
+            const SizedBox (width: 8.0),
+            Text(
+              productModel.deliveryTime,
+              style: const TextStyle(fontSize: 16.0),
+            )
+          ],
+          ),
+        ),
       ],
     );
   }
