@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
 
-class isSaleController extends GetxController {
+class IsSaleController extends GetxController {
   RxBool isSale = false.obs;
 
   void toggleIsSale(bool value){
+    isSale.value = value;
+    update();
+  }
+
+  void setIsSaleOldValue(bool value){
     isSale.value = value;
     update();
   }

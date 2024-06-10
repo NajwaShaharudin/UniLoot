@@ -51,6 +51,7 @@ class CategoryController extends GetxController {
           .doc(categoryId)
           .get();
 
+        //Fetch category name from snapshot
         if(snapshot.exists){
           return snapshot.data()?['categoryName'];
         }else {
@@ -61,8 +62,16 @@ class CategoryController extends GetxController {
       return null;
     }
   }
-  void setCategoryName(String? categoryName){
+  // set categoryName
+  void setSelectedCategoryName(String? categoryName){
     selectedCategoryName = categoryName?.obs;
     print("selected category name $selectedCategoryName");
+    update();
+  }
+
+  //set old value
+  void setOldValue(String? categoryId){
+    selectedCategoryId = categoryId?.obs;
+    print('selectedCategoryId $selectedCategoryId');
   }
 }

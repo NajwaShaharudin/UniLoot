@@ -3,10 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/controllers/category_controller.dart';
+import 'package:uni_loot/controllers/is_sale_controller.dart';
 import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/screens/admin_panel/add_products_screen.dart';
+import 'package:uni_loot/screens/admin_panel/edit_item_screen.dart';
 import 'package:uni_loot/screens/admin_panel/item_details_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
+
 
 class AdminAllItems extends StatefulWidget {
   const AdminAllItems({super.key});
@@ -20,14 +24,14 @@ class _AdminAllItems extends State<AdminAllItems> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Items"),
+        title: const Text("All Items"),
         centerTitle: true,
         backgroundColor: AppConstant.appMainColor,
         actions: [
           GestureDetector(
             onTap: () => Get.to(() => AddItemsScreen()),
-            child: Padding(
-                padding: const EdgeInsets.all(10.0),
+            child: const Padding(
+              padding: EdgeInsets.all(10.0),
               child: Icon(Icons.add),
             ),
           )
@@ -40,15 +44,15 @@ class _AdminAllItems extends State<AdminAllItems> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text("Error"));
+            return const Center(child: Text("Error"));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CupertinoActivityIndicator());
+            return const Center(child: CupertinoActivityIndicator());
           }
 
           if (snapshot.data!.docs.isEmpty) {
-            return Center(child: Text("No items found!"));
+            return const Center(child: Text("No items found!"));
           }
 
           return RefreshIndicator(
@@ -62,7 +66,7 @@ class _AdminAllItems extends State<AdminAllItems> {
               itemBuilder: (context, index) {
                 final data = snapshot.data!.docs[index];
 
-                    ProductModel productModel = ProductModel(
+                ProductModel productModel = ProductModel(
                     productId: data['productId'],
                     categoryId: data['categoryId'],
                     productName: data['productName'],
@@ -74,13 +78,11 @@ class _AdminAllItems extends State<AdminAllItems> {
                     isSale: data['isSale'],
                     productDescription: data['productDescription'],
                     createdAt: data['createdAt'],
-                    updatedAt: data['updatedAt']
-                );
-
+                    updatedAt: data['updatedAt']);
 
                 return InkWell(
                   onTap: () => Get.to(
-                          () => ItemDetailsScreen(productModel: productModel)),
+                      () => ItemDetailsScreen(productModel: productModel)),
                   child: Row(
                     children: [
                       ClipRRect(
@@ -92,29 +94,48 @@ class _AdminAllItems extends State<AdminAllItems> {
                           fit: BoxFit.cover,
                           placeholder: (context, url) => Container(
                             color: Colors.grey[200],
-                            child: Center(child: CircularProgressIndicator()),
+                            child: const Center(child: CircularProgressIndicator()),
                           ),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         ),
                       ),
                       const SizedBox(width: 16.0),
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              productModel.productName,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  productModel.productName,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4.0),
+                                Text(
+                                  productModel.productId,
+                                  style: const TextStyle(fontSize: 14.0),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 4.0),
-                            Text(
-                              productModel.productId,
-                              style: const TextStyle(fontSize: 14.0),
-                            ),
+                        GestureDetector(
+                              onTap: () {
+                                final editItemCategory =
+                                    Get.put(CategoryController());
+                                final isSaleController =
+                                Get.put(IsSaleController());
+                                editItemCategory
+                                    .setOldValue(productModel.categoryId);
+                                isSaleController.setIsSaleOldValue(productModel.isSale);
+                                Get.to(() =>
+                                    EditItemScreen(productModel: productModel));
+                              },
+                              child: const Icon(Icons.edit),
+                            )
                           ],
                         ),
                       ),

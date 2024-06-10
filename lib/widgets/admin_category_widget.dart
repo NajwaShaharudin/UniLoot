@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/category_controller.dart';
@@ -46,7 +45,7 @@ class AdminCategoryWidget extends StatelessWidget {
                     categoryController
                         .setSelectedCategory(selectedValue);
                     String? categoryName = await categoryController.getCategoryName(selectedValue);
-                    categoryController.setCategoryName(categoryName);
+                    categoryController.setSelectedCategoryName(categoryName);
                   },
                   hint: const Text('Select Category'),
                   isExpanded: true,
