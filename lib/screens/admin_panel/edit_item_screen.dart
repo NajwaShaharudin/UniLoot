@@ -10,27 +10,48 @@ import 'package:uni_loot/controllers/is_sale_controller.dart';
 import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
-class EditItemScreen extends StatelessWidget {
+class EditItemScreen extends StatefulWidget {
   ProductModel productModel;
   EditItemScreen({super.key, required this.productModel});
 
+  @override
+  State<EditItemScreen> createState() => _EditItemScreenState();
+}
+
+class _EditItemScreenState extends State<EditItemScreen> {
   IsSaleController isSaleController = Get.put(IsSaleController());
+
   CategoryController categoryController = Get.put(CategoryController());
+
   TextEditingController productNameController = TextEditingController();
+
   TextEditingController salePriceController = TextEditingController();
+
   TextEditingController fullPriceController = TextEditingController();
+
   TextEditingController deliveryTimeController = TextEditingController();
+
   TextEditingController productDescriptionController = TextEditingController();
+
+  @override
+  void initState(){
+    super.initState();
+    productNameController.text = widget.productModel.productName;
+    salePriceController.text = widget.productModel.salePrice;
+    fullPriceController.text = widget.productModel.fullPrice;
+    deliveryTimeController.text = widget.productModel.deliveryTime;
+    productDescriptionController.text = widget.productModel.productDescription;
+  }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EditProductController>(
-      init: EditProductController(productModel: productModel),
+      init: EditProductController(productModel: widget.productModel),
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppConstant.appMainColor,
-            title: Text("Edit Item ${productModel.productName}"),
+            title: Text("Edit Item ${widget.productModel.productName}"),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -72,7 +93,7 @@ class EditItemScreen extends StatelessWidget {
                                         controller.images[index].toString());
                                     await controller.deleteImageFromFireStore(
                                         controller.images[index].toString(),
-                                        productModel.productId);
+                                        widget.productModel.productId);
                                     EasyLoading.dismiss();
                                   },
                                   child: const CircleAvatar(
@@ -186,7 +207,7 @@ class EditItemScreen extends StatelessWidget {
                   child: TextFormField(
                     cursorColor: AppConstant.appMainColor,
                     textInputAction: TextInputAction.next,
-                    controller: productNameController..text = productModel.productName,
+                    controller: productNameController,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
@@ -213,7 +234,7 @@ class EditItemScreen extends StatelessWidget {
                       child: TextFormField(
                         cursorColor: AppConstant.appMainColor,
                         textInputAction: TextInputAction.next,
-                        controller: salePriceController..text = productModel.salePrice,
+                        controller: salePriceController,
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: 10.0
@@ -264,7 +285,7 @@ class EditItemScreen extends StatelessWidget {
                   child: TextFormField(
                     cursorColor: AppConstant.appMainColor,
                     textInputAction: TextInputAction.next,
-                    controller: fullPriceController..text = productModel.fullPrice,
+                    controller: fullPriceController,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
@@ -286,7 +307,7 @@ class EditItemScreen extends StatelessWidget {
                   child: TextFormField(
                     cursorColor: AppConstant.appMainColor,
                     textInputAction: TextInputAction.next,
-                    controller: deliveryTimeController..text = productModel.deliveryTime,
+                    controller: deliveryTimeController,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
@@ -308,7 +329,7 @@ class EditItemScreen extends StatelessWidget {
                   child: TextFormField(
                     cursorColor: AppConstant.appMainColor,
                     textInputAction: TextInputAction.next,
-                    controller: productDescriptionController..text = productModel.productDescription,
+                    controller: productDescriptionController,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10.0,
@@ -329,23 +350,23 @@ class EditItemScreen extends StatelessWidget {
                     //product model
                     EasyLoading.show();
                     ProductModel newProductModel = ProductModel(
-                        productId: productModel.productId,
+                        productId: widget.productModel.productId,
                         categoryId: categoryController.selectedCategoryId.toString(),
                         productName: productNameController.text.trim(),
                         categoryName: categoryController.selectedCategoryName.toString(),
                         salePrice: salePriceController.text != ''? salePriceController.text.trim():'',
                         fullPrice: fullPriceController.text.trim(),
-                        productImages: productModel.productImages,
+                        productImages: widget.productModel.productImages,
                         deliveryTime: deliveryTimeController.text.trim(),
                         isSale: isSaleController.isSale.value,
                         productDescription: productDescriptionController.text.trim(),
-                        createdAt: productModel.createdAt,
+                        createdAt: widget.productModel.createdAt,
                         updatedAt: DateTime.now(),
                     );
 
                     await FirebaseFirestore.instance
                         .collection('products')
-                        .doc(productModel.productId)
+                        .doc(widget.productModel.productId)
                         .update(newProductModel.toMap());
 
                     EasyLoading.dismiss();
