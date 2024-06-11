@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/category_controller.dart';
 import 'package:uni_loot/controllers/is_sale_controller.dart';
@@ -78,68 +81,108 @@ class _AdminAllItems extends State<AdminAllItems> {
                     isSale: data['isSale'],
                     productDescription: data['productDescription'],
                     createdAt: data['createdAt'],
-                    updatedAt: data['updatedAt']);
+                    updatedAt: data['updatedAt']
+                );
 
-                return InkWell(
-                  onTap: () => Get.to(
-                      () => ItemDetailsScreen(productModel: productModel)),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CachedNetworkImage(
-                          imageUrl: productModel.productImages[0],
-                          width: 80.0,
-                          height: 80.0,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: Colors.grey[200],
-                            child: const Center(child: CircularProgressIndicator()),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ),
-                      const SizedBox(width: 16.0),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  productModel.productName,
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Text(
-                                  productModel.productId,
-                                  style: const TextStyle(fontSize: 14.0),
-                                ),
-                              ],
+                return SwipeActionCell(
+                  key: ObjectKey(productModel.productId),
+                  trailingActions: <SwipeAction>[
+                    SwipeAction(
+                        title: "Delete",
+                        onTap: (CompletionHandler handler) async {
+                          await Get.defaultDialog(
+                            title: "Delete Item",
+                            content: const Text(
+                                "Are you sure to delete this items?"),
+                            textCancel: "Cancel",
+                            textConfirm: "Delete",
+                            contentPadding: const EdgeInsets.all(10.0),
+                            confirmTextColor: Colors.white,
+                            onCancel: (){},
+                            onConfirm: () async {
+                              Get.back();
+                              EasyLoading.show(status: 'Please wait..');
+
+                              await deleteImagesFromFirebase(
+                                productModel.productImages,
+                              );
+
+                              await FirebaseFirestore.instance
+                                  .collection('products')
+                                  .doc(productModel.productId)
+                                  .delete();
+
+                              EasyLoading.dismiss();
+                          },
+                            buttonColor: Colors.red,
+                            cancelTextColor: Colors.black,
+                          );
+                        },
+                        color: Colors.red),
+                  ],
+                  child: InkWell(
+                    onTap: () => Get.to(
+                        () => ItemDetailsScreen(productModel: productModel)),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: productModel.productImages[0],
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey[200],
+                              child: const Center(
+                                  child: CircularProgressIndicator()),
                             ),
-                        GestureDetector(
-                              onTap: () {
-                                final editItemCategory =
-                                    Get.put(CategoryController());
-                                final isSaleController =
-                                Get.put(IsSaleController());
-                                editItemCategory
-                                    .setOldValue(productModel.categoryId);
-                                isSaleController.setIsSaleOldValue(productModel.isSale);
-                                Get.to(() =>
-                                    EditItemScreen(productModel: productModel));
-                              },
-                              child: const Icon(Icons.edit),
-                            )
-                          ],
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 16.0),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    productModel.productName,
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4.0),
+                                  Text(
+                                    productModel.productId,
+                                    style: const TextStyle(fontSize: 14.0),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  final editItemCategory =
+                                      Get.put(CategoryController());
+                                  final isSaleController =
+                                      Get.put(IsSaleController());
+                                  editItemCategory
+                                      .setOldValue(productModel.categoryId);
+                                  isSaleController
+                                      .setIsSaleOldValue(productModel.isSale);
+                                  Get.to(() => EditItemScreen(
+                                      productModel: productModel));
+                                },
+                                child: const Icon(Icons.edit),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -148,5 +191,19 @@ class _AdminAllItems extends State<AdminAllItems> {
         },
       ),
     );
+  }
+
+  Future deleteImagesFromFirebase(List imagesUrls) async {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    
+    for(String imageUrl in imagesUrls){
+      try {
+        Reference reference = storage.refFromURL(imageUrl);
+
+        await reference.delete();
+      } catch (e) {
+        print("Error $e");
+      }
+    }
   }
 }
