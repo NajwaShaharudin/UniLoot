@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:uni_loot/screens/admin_panel/admin_all_items.dart';
 import 'package:uni_loot/screens/admin_panel/all_orders_screen.dart';
 import 'package:uni_loot/screens/admin_panel/all_user_screen.dart';
-import 'package:uni_loot/screens/user_panel/cust_order_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 import '../screens/auth_ui/welcome_screen.dart';
@@ -23,7 +22,7 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
     return Padding(
       padding: EdgeInsets.only(top: Get.height/25),
       child: Drawer(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(20.0),
             bottomRight: Radius.circular(20.0),
@@ -32,14 +31,14 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
         child: Wrap(
           runSpacing: 10,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text("Admin Dashboard", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
               ),
             ),
-            Divider(
+            const Divider(
               indent: 10.0,
               endIndent: 10.0,
               thickness: 1.5,
@@ -48,33 +47,24 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
-                titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Home"),
-                leading: Icon(Icons.home),
-                trailing: Icon(Icons.arrow_forward),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: ListTile(
                 onTap: (){
-                  Get.to(() => AllUserScreen());
+                  Get.to(() => const AllUserScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Users"),
-                leading: Icon(Icons.person),
-                trailing: Icon(Icons.arrow_forward),
+                title: const Text("Users"),
+                leading: const Icon(Icons.person),
+                trailing: const Icon(Icons.arrow_forward),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Orders"),
-                leading: Icon(Icons.shopping_bag),
-                trailing: Icon(Icons.arrow_forward),
+                title: const Text("Orders"),
+                leading: const Icon(Icons.shopping_bag),
+                trailing: const Icon(Icons.arrow_forward),
                 onTap: (){
-                  Get.to(AllOrdersScreen());
+                  Get.to(const AllOrdersScreen());
                 },
               ),
             ),
@@ -82,15 +72,31 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Item"),
-                leading: Icon(
+                title: const Text("Item"),
+                leading: const Icon(
                     Icons.shopping_cart),
-                trailing: Icon(
+                trailing: const Icon(
                     Icons.arrow_forward
                 ),
                 onTap: (){
                   Get.back();
-                  Get.to(() => AdminAllItems());
+                  Get.to(() => const AdminAllItems());
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                title: const Text("Categories"),
+                leading: const Icon(
+                    Icons.category),
+                trailing: const Icon(
+                    Icons.arrow_forward
+                ),
+                onTap: (){
+                  Get.back();
+                  Get.to(() => const AdminAllItems());
                 },
               ),
             ),
@@ -106,9 +112,9 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
                   Get.offAll(() => WelcomeScreen());
                 },
                 titleAlignment: ListTileTitleAlignment.center,
-                title: Text("Logout"),
-                leading: Icon(Icons.logout),
-                trailing: Icon(Icons.arrow_forward),
+                title: const Text("Logout"),
+                leading: const Icon(Icons.logout),
+                trailing: const Icon(Icons.arrow_forward),
               ),
             ),
           ],
