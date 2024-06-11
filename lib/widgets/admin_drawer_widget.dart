@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:uni_loot/screens/admin_panel/admin_all_items.dart';
+import 'package:uni_loot/screens/admin_panel/all_categories_screen.dart';
 import 'package:uni_loot/screens/admin_panel/all_orders_screen.dart';
 import 'package:uni_loot/screens/admin_panel/all_user_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
@@ -94,9 +95,9 @@ class _AdminDrawerWidgetState extends State<AdminDrawerWidget> {
                 trailing: const Icon(
                     Icons.arrow_forward
                 ),
-                onTap: (){
+                onTap: () async {
                   Get.back();
-                  Get.to(() => const AdminAllItems());
+                  Get.to(() => const AllCategoriesScreen());
                 },
               ),
             ),
