@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/categories_model.dart';
+import 'package:uni_loot/screens/admin_panel/add_categories_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
@@ -17,6 +18,15 @@ class AllCategoriesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
         title: Text("All Categories"),
+        actions: [
+          InkWell(
+            onTap: () => Get.to(() => const AddCategoriesScreen()),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(Icons.add),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance

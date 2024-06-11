@@ -14,5 +14,16 @@ class GenerateIds{
     return formatedProductId;
   }
 
+  String generateCategoryId(){
+    String formatedCategoryId;
+    String uuid = const Uuid().v4();
+
+    //customize id
+    formatedCategoryId = "uni-loot-${uuid.substring(0, 5)}";
+
+    //return
+    return formatedCategoryId;
+  }
+
 
 }

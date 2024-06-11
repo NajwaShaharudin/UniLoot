@@ -6,8 +6,8 @@ class CategoriesModel {
   final String categoryId;
   final String categoryImg;
   final String categoryName;
-  final Timestamp createdAt;
-  final Timestamp updatedAt;
+  final dynamic createdAt;
+  final dynamic updatedAt;
 
   CategoriesModel({
     required this.categoryId,
@@ -18,10 +18,11 @@ class CategoriesModel {
   });
   
   //Serialize the UserModel instance to a JSON map
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'categoryId': categoryId,
       'categoryImg': categoryImg,
+      'categoryName': categoryName,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
