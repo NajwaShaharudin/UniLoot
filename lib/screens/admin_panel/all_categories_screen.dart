@@ -7,6 +7,7 @@ import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/categories_model.dart';
 import 'package:uni_loot/screens/admin_panel/add_categories_screen.dart';
+import 'package:uni_loot/screens/admin_panel/edit_category_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class AllCategoriesScreen extends StatelessWidget {
@@ -141,7 +142,7 @@ class AllCategoriesScreen extends StatelessWidget {
                                 ],
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () => Get.to(() => EditCategoryScreen(categoriesModel: categoriesModel)),
                                 child: const Icon(Icons.edit),
                               )
                             ],
