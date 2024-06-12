@@ -60,4 +60,17 @@ class EditCategoryController extends GetxController {
       print("Error $e");
     }
   }
+
+  //delete whole category
+  Future<void> deleteWholeCategoryFromFireStore(String categoryId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('categories')
+          .doc(categoryId)
+          .delete();
+      update();
+    } catch (e) {
+      print("Error $e");
+    }
+  }
 }

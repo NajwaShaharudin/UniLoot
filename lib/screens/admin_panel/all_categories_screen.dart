@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/controllers/admin_edit_category_controller.dart';
 import 'package:uni_loot/models/categories_model.dart';
 import 'package:uni_loot/screens/admin_panel/add_categories_screen.dart';
 import 'package:uni_loot/screens/admin_panel/edit_category_screen.dart';
@@ -18,7 +19,7 @@ class AllCategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text("All Categories"),
+        title: const Text("All Categories"),
         actions: [
           InkWell(
             onTap: () => Get.to(() => const AddCategoriesScreen()),
@@ -86,15 +87,11 @@ class AllCategoriesScreen extends StatelessWidget {
                               Get.back();
                               EasyLoading.show(status: 'Please wait..');
 
-                              // await deleteImagesFromFirebase(
-                              //   productModel.productImages,
-                              // );
-                              //
-                              // await FirebaseFirestore.instance
-                              //     .collection('products')
-                              //     .doc(productModel.productId)
-                              //     .delete();
+                            EditCategoryController editCategoryController = Get.put(EditCategoryController(categoriesModel: categoriesModel));
 
+                            await editCategoryController.deleteImagesFromStorage(categoriesModel.categoryImg);
+
+                            await editCategoryController.deleteWholeCategoryFromFireStore(categoriesModel.categoryId);
                               EasyLoading.dismiss();
                             },
                             buttonColor: Colors.red,
