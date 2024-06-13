@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/order_model.dart';
 import 'package:uni_loot/screens/admin_panel/single_order_screen.dart';
@@ -32,7 +33,7 @@ class DetailsCustomerOrderScreen extends StatelessWidget {
             .get(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text("Error", style: TextStyle(color: Colors.red)));
+            return const Center(child: Text("Error", style: TextStyle(color: Colors.red)));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,34 +136,47 @@ void showBottomSheet({required String userDocId, required OrderModel orderModel,
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                       onPressed: () async {
-                        await FirebaseFirestore.instance
-                            .collection('orders')
-                            .doc(userDocId)
-                            .collection('confirmOrders')
-                            .doc(orderDocId)
-                            .update(
-                          {
+                        EasyLoading.show(status: 'Updating...');
+                        try {
+                          await FirebaseFirestore.instance
+                              .collection('orders')
+                              .doc(userDocId)
+                              .collection('confirmOrders')
+                              .doc(orderDocId)
+                              .update({
                             'status': false,
-                          },
-                        );
-                      }, child: Text('Pending')),
+                          });
+
+                          EasyLoading.showSuccess('Order marked as pending.'); // Success message
+                        } catch (error) {
+                          EasyLoading.showError('Failed to update order: $error'); // Error handling
+                        }
+                      },
+                    child: Text('Pending'),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                       onPressed: () async {
-                        await FirebaseFirestore.instance
-                            .collection('orders')
-                            .doc(userDocId)
-                            .collection('confirmOrders')
-                            .doc(orderDocId)
-                            .update(
-                          {
+                        EasyLoading.show(status: 'Updating...');
+                        try {
+                          await FirebaseFirestore.instance
+                              .collection('orders')
+                              .doc(userDocId)
+                              .collection('confirmOrders')
+                              .doc(orderDocId)
+                              .update({
                             'status': true,
-                          },
-                        );
+                          });
+
+                          EasyLoading.showSuccess('Order marked as delivered.'); // Success message
+                        } catch (error) {
+                          EasyLoading.showError('Failed to update order: $error'); // Error handling
+                        }
                       },
-                      child: Text('Delivered')),
+                    child: Text('Delivered'),
+                  ),
                 ),
               ],
               )

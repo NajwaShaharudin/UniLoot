@@ -8,6 +8,8 @@ import 'package:uni_loot/controllers/admin_edit_category_controller.dart';
 import 'package:uni_loot/models/categories_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
+import 'all_categories_screen.dart';
+
 class EditCategoryScreen extends StatefulWidget {
   CategoriesModel categoriesModel;
   EditCategoryScreen({super.key, required this.categoriesModel});
@@ -121,7 +123,8 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                       .doc(categoriesModel.categoryId)
                       .update(categoriesModel.toJson());
 
-                  EasyLoading.dismiss();
+                  EasyLoading.showSuccess('Edit success');
+
                 },
                 child: const Text("Update")
             )

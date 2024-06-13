@@ -24,11 +24,11 @@ class _BannerWidgetState extends State<BannerWidget> {
           items: _bannerController.bannerUrls
               .map(
                 (imageUrls) => ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width <= 600 ? 5.0 : 10.0),
               child: CachedNetworkImage(
                 imageUrl: imageUrls,
                 fit: BoxFit.cover,
-                width: Get.width - 10,
+                width: MediaQuery.of(context).size.width <= 600 ? Get.width : Get.width - 10,
                 placeholder: (context, url) => ColoredBox(
                   color: Colors.white,
                   child: Center(
@@ -43,11 +43,12 @@ class _BannerWidgetState extends State<BannerWidget> {
           options: CarouselOptions(
             scrollDirection: Axis.horizontal,
             autoPlay: true,
-            aspectRatio: 2.5,
+            aspectRatio: MediaQuery.of(context).size.width <= 600 ? 2.0 : 2.5,
             viewportFraction: 1,
           ),
         );
       }),
     );
   }
+
 }

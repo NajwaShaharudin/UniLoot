@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,8 +28,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         actions: [
           GestureDetector(
             onTap: () => Get.to(() => CartScreen()),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(
                 Icons.shopping_cart,
               ),
@@ -38,7 +37,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           )
         ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             //product images
@@ -53,15 +52,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 width: Get.width, // Set width to match screen width
                 height: Get.height / 2, // Adjust height as needed
                 placeholder: (context, url) => ColoredBox(
-                  color: Colors.white,
+                  color: Colors.grey.shade200,
                   child: Center(
                     child: CupertinoActivityIndicator(),
                   ),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
-            Padding(padding: EdgeInsets.all(8.0),
+            Padding(padding: const EdgeInsets.all(8.0),
             child: Card(
               elevation: 5.0,
               shape:RoundedRectangleBorder(
@@ -78,9 +77,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         children: [
                           Text(
                             widget.productModel.productName,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          
-                          Icon(Icons.favorite_outline)
+
+                          const Icon(Icons.favorite_outline)
                         ],
                       ),
                     ),
@@ -126,27 +129,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Material(
-                          child: Container(
-                            width: Get.width/3.0,
-                            height: Get.height/16,
-                            decoration: BoxDecoration(
-                                color: AppConstant.appSecondaryColor,
-                                borderRadius:BorderRadius.circular((20.0),)
-                            ),
-                            child: TextButton(
-                              child: Text(
-                                "Chat",
-                                style: TextStyle(color: AppConstant.appTextColor),
-                              ),
-                              onPressed: (){
-                                // sendMessageonWhatsApp(
-                                //   productModel: widget.productModel,
-                                // );
-                              },
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           width: 5.0,),
                         Material(
@@ -181,20 +163,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  // static Future<void> sendMessageonWhatsApp({
-  //   required ProductModel productModel,
-  // }) async {
-  //   final number = "+01156290036";
-  //   final message = "Hello UniLoot \n I want to know about this product \n ${productModel.productName} \n ${productModel.productId}";
-  //
-  //   final url = ('https:/wa.me/$number?text=${Uri.encodeComponent(message)}');
-  //
-  //   if(await canLaunch(url)){
-  //     await launchUrl(url as Uri );
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 
   //check items exist or not
   Future<void> checkProductExistence({
@@ -219,7 +187,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         'productQuantity': updatedQuantity,
         'productTotalPrice': totalPrice
       });
-      
+
         print("Items exists");
 
     }else{
@@ -245,7 +213,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           productQuantity: 1,
           productTotalPrice: double.parse(widget.productModel.fullPrice),
       );
-      
+
       await documentReference.set(cartModel.toMap());
 
       print("Items added");

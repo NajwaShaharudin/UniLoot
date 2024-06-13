@@ -34,7 +34,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: ListTile(
                       titleAlignment: ListTileTitleAlignment.center,
                       title: Text("Najwa"),
-                      subtitle: Text("Version 1.0"),
                       leading: CircleAvatar(
                         radius: 22.0,
                         backgroundColor: AppConstant.appMainColor,
@@ -48,15 +47,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     thickness: 1.5,
                     color: Colors.black,
                   ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: Text("Home"),
-                      leading: Icon(Icons.home),
-                      trailing: Icon(Icons.arrow_forward),
-                    ),
-                  ),
+                  // Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  //   child: ListTile(
+                  //     titleAlignment: ListTileTitleAlignment.center,
+                  //     title: Text("Home"),
+                  //     leading: Icon(Icons.home),
+                  //     trailing: Icon(Icons.arrow_forward),
+                  //   ),
+                  // ),
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   //   child: ListTile(

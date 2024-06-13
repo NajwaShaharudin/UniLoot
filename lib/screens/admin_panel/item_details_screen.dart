@@ -31,7 +31,7 @@ class ItemDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.network(
                     productModel.productImages[0],
-                    width: Get.width,
+                    width: Get.width /3,
                     height: Get.height * 0.5, // Adjust height as needed
                     fit: BoxFit.cover,
                   ),

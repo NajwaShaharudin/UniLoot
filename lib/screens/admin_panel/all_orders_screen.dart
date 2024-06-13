@@ -77,12 +77,12 @@ class AllOrdersScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.edit, color: Colors.grey),
-                        onPressed: () {
-                          // Handle edit action
-                        },
-                      ),
+                      // IconButton(
+                      //   icon: Icon(Icons.edit, color: Colors.grey),
+                      //   onPressed: () {
+                      //     // Handle edit action
+                      //   },
+                      // ),
                     ],
                   ),
                 );

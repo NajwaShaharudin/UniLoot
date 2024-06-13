@@ -85,7 +85,8 @@ class AllCategoriesScreen extends StatelessWidget {
                             onCancel: (){},
                             onConfirm: () async {
                               Get.back();
-                              EasyLoading.show(status: 'Please wait..');
+                              EasyLoading.show(status: 'Deleting..');
+
 
                             EditCategoryController editCategoryController = Get.put(EditCategoryController(categoriesModel: categoriesModel));
 

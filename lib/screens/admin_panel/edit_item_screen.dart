@@ -348,7 +348,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     //product model
-                    EasyLoading.show();
+                    EasyLoading.show(status: 'Updating...');
                     ProductModel newProductModel = ProductModel(
                         productId: widget.productModel.productId,
                         categoryId: categoryController.selectedCategoryId.toString(),
@@ -369,7 +369,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         .doc(widget.productModel.productId)
                         .update(newProductModel.toMap());
 
-                    EasyLoading.dismiss();
+                    EasyLoading.showSuccess('Item successfully updated');
                   },
                   child: const Text("Update"),
                 )

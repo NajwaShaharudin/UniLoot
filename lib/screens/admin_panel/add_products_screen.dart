@@ -277,9 +277,10 @@ class AddItemsScreen extends StatelessWidget {
                     );
 
                     await FirebaseFirestore.instance.collection('products').doc(productId).set(productModel.toMap());
-                    EasyLoading.dismiss();
+                    EasyLoading.showSuccess('Item added successfully');
                   }catch (e){
-                    print("Error: $e");
+                    print(e);
+                    EasyLoading.showError('Error: ${e.toString()}');
                   }
                 },
                 child: const Text("Upload"),

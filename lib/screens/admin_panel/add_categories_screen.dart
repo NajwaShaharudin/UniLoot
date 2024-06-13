@@ -8,6 +8,8 @@ import 'package:uni_loot/models/categories_model.dart';
 import 'package:uni_loot/services/generate_ids_services.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
+import 'all_categories_screen.dart';
+
 class AddCategoriesScreen extends StatefulWidget {
   const AddCategoriesScreen({super.key});
 
@@ -141,7 +143,8 @@ class _AddCategoriesScreenState extends State<AddCategoriesScreen> {
                       .doc(categoryId)
                       .set(categoriesModel.toJson());
 
-                  EasyLoading.dismiss();
+                  EasyLoading.showSuccess('New categories added!');
+
                 },
                 child: const Text("Save"),
               )

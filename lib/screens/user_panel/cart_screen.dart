@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
@@ -26,7 +25,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text('Your Cart'),
+        title: const Text('Your Cart'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -36,20 +35,20 @@ class _CartScreenState extends State<CartScreen> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
           if(snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text("Error"),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting){
             return Container(
               height: Get.height / 5,
-              child: Center(
+              child: const Center(
                 child: CupertinoActivityIndicator(),
               ),
             );
           }
           if(snapshot.data!.docs.isEmpty){
-            return Center(child: Text("No item added!"),
+            return const Center(child: Text("No item added!"),
             );
           }
 
@@ -127,7 +126,7 @@ class _CartScreenState extends State<CartScreen> {
                                     });
                                   }
                                 },
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   radius: 14.0,
                                   backgroundColor: AppConstant.appMainColor,
                                   child: Text('-'),
@@ -150,7 +149,7 @@ class _CartScreenState extends State<CartScreen> {
                                     });
                                   }
                                 },
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   radius: 14.0,
                                   backgroundColor: AppConstant.appMainColor,
                                   child: Text('+'),
@@ -173,13 +172,13 @@ class _CartScreenState extends State<CartScreen> {
       ),
 
       bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 5.0),
+        margin: const EdgeInsets.only(bottom: 5.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Obx(() =>  Text(
               "Total RM ${itemPriceController.totalPrice.value.toStringAsFixed(1)}",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             ),
 
@@ -194,12 +193,12 @@ class _CartScreenState extends State<CartScreen> {
                       borderRadius:BorderRadius.circular((30.0),)
                   ),
                   child: TextButton(
-                    child: Text(
+                    child: const Text(
                       "Checkout",
                       style: TextStyle(color: AppConstant.appTextColor),
                     ),
                     onPressed: (){
-                      Get.to(() => CheckoutScreen());
+                      Get.to(() => const CheckoutScreen());
                     },
                   ),
                 ),

@@ -21,6 +21,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Obx(() {
           return Text('Users (${_getUserController.userCollectionLength.toString()})');
         }),
@@ -93,7 +94,7 @@ class _AllUserScreenState extends State<AllUserScreen> {
                     ),
                     title: Text(userModel.username),
                     subtitle: Text(userModel.email),
-                    trailing: Icon(Icons.edit),
+                    // trailing: Icon(Icons.edit),
 
                   ),
                 );
