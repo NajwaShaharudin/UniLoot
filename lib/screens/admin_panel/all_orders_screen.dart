@@ -55,7 +55,7 @@ class AllOrdersScreen extends StatelessWidget {
                           docId: data['uId'], customerName: customerName)),
                   child: Row(
                     children: [
-                      // Consider using user profile image if available
+
                       CircleAvatar(
                         backgroundColor: AppConstant.appSecondaryColor,
                         child: Text(customerName[0].toUpperCase()),

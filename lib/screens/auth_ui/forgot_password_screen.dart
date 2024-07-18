@@ -75,11 +75,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                   Material(
                     child: Container(
-                      width: Get.width/ 5,
+                      width: Get.width/ 3,
                       height: Get.height/18,
                       decoration: BoxDecoration(
                           color: AppConstant.appSecondaryColor,
-                          borderRadius:BorderRadius.circular((20.0),)
+                          borderRadius:BorderRadius.circular((10.0),)
                       ),
                       child: TextButton(
                         child: Text("Sent Email",

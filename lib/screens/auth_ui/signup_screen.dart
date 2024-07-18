@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/signup_controller.dart';
 import 'package:uni_loot/screens/auth_ui/signIn_screen.dart';
+import 'package:uni_loot/screens/auth_ui/welcome_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -32,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: AppConstant.appSecondaryColor,
-            title: Text(
+            title: const Text(
               "SIGN UP" ,
               style: TextStyle(color: AppConstant.appTextColor),
             ),
@@ -52,7 +52,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: Get.height / 20,
                     ),
                     Center(
-                        child: Text("Sign up to explore our apps!", style: TextStyle(
+                        child: const Text("Sign up to explore our apps!", style: TextStyle(
                           color: AppConstant.appSecondaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,
@@ -74,8 +74,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               hintText: "Email",
-                              prefixIcon: Icon(Icons.email),
-                              contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
+                              prefixIcon: const Icon(Icons.email),
+                              contentPadding: const EdgeInsets.only(top: 2.0, left: 8.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -87,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     Center(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         width: Get.width < 600 ? Get.width : 400.0,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -97,8 +97,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               hintText: "Username",
-                              prefixIcon: Icon(Icons.person),
-                              contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
+                              prefixIcon: const Icon(Icons.person),
+                              contentPadding: const EdgeInsets.only(top: 2.0, left: 8.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -110,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     Center(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         width: Get.width < 600 ? Get.width : 400.0,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -120,8 +120,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               hintText: "Phone Number",
-                              prefixIcon: Icon(Icons.phone),
-                              contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
+                              prefixIcon: const Icon(Icons.phone),
+                              contentPadding: const EdgeInsets.only(top: 2.0, left: 8.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -133,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     Center(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         width: Get.width < 600 ? Get.width : 400.0,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -143,8 +143,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.streetAddress,
                             decoration: InputDecoration(
                               hintText: "City",
-                              prefixIcon: Icon(Icons.location_pin),
-                              contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
+                              prefixIcon: const Icon(Icons.location_pin),
+                              contentPadding: const EdgeInsets.only(top: 2.0, left: 8.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -157,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     Center(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         width: Get.width < 600 ? Get.width : 400.0,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -168,14 +168,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               hintText: "Password",
-                              prefixIcon: Icon(Icons.password),
+                              prefixIcon: const Icon(Icons.password),
                               suffixIcon: GestureDetector(
                                   onTap: (){
                                     signUpController.isPasswordVisible.toggle();
                                   },
                                   child: signUpController.isPasswordVisible.value
                                       ?  Icon(Icons.visibility_off)
-                                      : Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility)
                               ),
                               contentPadding: EdgeInsets.only(top: 2.0, left: 8.0),
                               border: OutlineInputBorder(
@@ -266,7 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
 
                         GestureDetector(
-                          onTap: () => Get.to(() => SignInScreen()),
+                          onTap: () => Get.to(() => WelcomeScreen()),
                           child: Text(
                             "Sign In",
                             style: TextStyle(color: AppConstant.appSecondaryColor,
