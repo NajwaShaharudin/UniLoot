@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
 import 'package:uni_loot/models/order_model.dart';
+import 'package:uni_loot/screens/user_panel/user_reviews.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 
@@ -107,7 +107,10 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
                       ),
                       trailing: orderModel.status == true
                           ? ElevatedButton(
-                        onPressed: (){},
+                        onPressed: () => Get.to(
+                                () => UserReviewScreen(
+                                  orderModel: orderModel,
+                        )),
                         child: const Text("Review"),
                       )
                           :const SizedBox.shrink(),
