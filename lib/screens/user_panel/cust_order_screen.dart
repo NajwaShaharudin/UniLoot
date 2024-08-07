@@ -108,6 +108,12 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
                               :Text("Delivered", style: TextStyle(color: Colors.green),)
                         ],
                       ),
+                      trailing: orderModel.status == true
+                          ? ElevatedButton(
+                        onPressed: (){},
+                        child: Text("Review"),
+                      )
+                          :SizedBox.shrink(),
                     ),
                   );
                 },
