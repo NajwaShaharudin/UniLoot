@@ -3,13 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/controllers/cart_price_controller.dart';
-import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/models/order_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
-import 'checkout_screen.dart';
 
 
 class CustomerOrderScreen extends StatefulWidget {
@@ -27,7 +24,7 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
-        title: Text('Your Orders'),
+        title: const Text('Your Orders'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -37,20 +34,20 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
           if(snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text("Error"),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting){
             return Container(
               height: Get.height / 5,
-              child: Center(
+              child: const Center(
                 child: CupertinoActivityIndicator(),
               ),
             );
           }
           if(snapshot.data!.docs.isEmpty){
-            return Center(child: Text("No item added!"),
+            return const Center(child: Text("No item added!"),
             );
           }
 
@@ -59,7 +56,7 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
               child: ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index){
                   final productData = snapshot.data!.docs[index];
                   OrderModel orderModel = OrderModel(
@@ -100,20 +97,20 @@ class _CustomerOrderScreen extends State<CustomerOrderScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(orderModel.productTotalPrice.toString()),
-                          SizedBox(
+                          const SizedBox(
                             width: 10.0,
                           ),
                           orderModel.status != true
-                              ? Text("Pending...", style: TextStyle(color: Colors.red),)
-                              :Text("Delivered", style: TextStyle(color: Colors.green),)
+                              ? const Text("Pending...", style: TextStyle(color: Colors.red),)
+                              :const Text("Delivered", style: TextStyle(color: Colors.green),)
                         ],
                       ),
                       trailing: orderModel.status == true
                           ? ElevatedButton(
                         onPressed: (){},
-                        child: Text("Review"),
+                        child: const Text("Review"),
                       )
-                          :SizedBox.shrink(),
+                          :const SizedBox.shrink(),
                     ),
                   );
                 },
