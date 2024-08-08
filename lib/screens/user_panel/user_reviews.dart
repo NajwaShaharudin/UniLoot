@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:uni_loot/models/order_model.dart';
+import 'package:uni_loot/models/reviews_model.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
 class UserReviewScreen extends StatefulWidget {
@@ -58,11 +62,33 @@ class _UserReviewScreenState extends State<UserReviewScreen> {
             const SizedBox(
               height: 20.0,
             ),
-            ElevatedButton(onPressed: (){
-                String feedback = feedbackController.text.trim();
-                print(feedback);
-                print(productRating);
-            }, child: const Text("Submit"))
+            ElevatedButton(onPressed: () async {
+              EasyLoading.show(status: "Please wait..");
+              String feedback = feedbackController.text.trim();
+              User? user = FirebaseAuth.instance.currentUser;
+                // print(feedback);
+                // print(productRating);
+
+              ReviewsModel reviewModel = ReviewsModel(
+                  customerName: widget.orderModel.customerName,
+                  customerPhone: widget.orderModel.customerPhone,
+                  customerDeviceToken: widget.orderModel.customerDeviceToken,
+                  customerId: widget.orderModel.customerId,
+                  feedback: feedback,
+                  rating: productRating.toString(),
+                    createdAt: DateTime.now(),
+                  );
+
+                  await FirebaseFirestore.instance
+                      .collection('products')
+                      .doc(widget.orderModel.productId)
+                      .collection('review')
+                      .doc(user!.uid)
+                      .set(reviewModel.toMap());
+
+                  EasyLoading.dismiss();
+                },
+                child: const Text("Submit"))
           ],
         ),
       ),
