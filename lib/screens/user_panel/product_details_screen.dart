@@ -95,26 +95,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   //review
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: RatingBar.builder(
-                      glow: false,
+                    Container(
+                      alignment: Alignment.topLeft,
+                      child: RatingBar.builder(
+                        glow: false,
                         ignoreGestures: true,
-                        initialRating: 2.3,
+                        initialRating: double.parse(
+                            calculateProductRatingController.averageRating
+                                .toString()),
                         minRating: 1,
                         direction: Axis.horizontal,
-                       allowHalfRating: true,
+                        allowHalfRating: true,
                         itemCount: 5,
                         itemSize: 25,
-                        itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 2.0),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
                           color: Colors.amber,
                         ),
-                        onRatingUpdate: (value){},
+                        onRatingUpdate: (value) {},
+                      ),
                     ),
-                  ),
-                  Padding(
+                    Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       alignment: Alignment.topLeft,
