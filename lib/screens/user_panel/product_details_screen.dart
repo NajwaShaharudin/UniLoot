@@ -25,8 +25,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CalculateProductRatingController calculateProductRatingController = Get.put(
-        CalculateProductRatingController(widget.productModel.productId));
+    CalculateProductRatingController calculateProductRatingController =
+    Get.put(CalculateProductRatingController(widget.productModel.productId));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
@@ -112,7 +112,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             itemSize: 25,
                             itemPadding:
                                 const EdgeInsets.symmetric(horizontal: 2.0),
-                            itemBuilder: (context, _) => const Icon(
+                            itemBuilder: (context, _) => Icon(
                               Icons.star,
                               color: Colors.amber,
                             ),
