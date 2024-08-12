@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/models/product_model.dart';
+import 'package:uni_loot/models/reviews_model.dart';
 import 'package:uni_loot/screens/user_panel/cart_screen.dart';
 import 'package:uni_loot/utils/app_constant.dart';
 
@@ -24,10 +25,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppConstant.appMainColor,
-        title: Text("Item Details"),
+        title: const Text("Item Details"),
         actions: [
           GestureDetector(
-            onTap: () => Get.to(() => CartScreen()),
+            onTap: () => Get.to(() => const CartScreen()),
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: Icon(
@@ -53,7 +54,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 height: Get.height / 2, // Adjust height as needed
                 placeholder: (context, url) => ColoredBox(
                   color: Colors.grey.shade200,
-                  child: Center(
+                  child: const Center(
                     child: CupertinoActivityIndicator(),
                   ),
                 ),
@@ -77,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         children: [
                           Text(
                             widget.productModel.productName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -129,7 +130,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 5.0,),
                         Material(
                           child: Container(
@@ -140,7 +141,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 borderRadius:BorderRadius.circular((20.0),)
                             ),
                             child: TextButton(
-                              child: Text(
+                              child: const Text(
                                 "Add to cart",
                                 style: TextStyle(color: AppConstant.appTextColor),
                               ),
@@ -156,7 +157,66 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ],
               ),
             ),
-            )
+            ),
+            //reviews
+            FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('products')
+                  .doc(widget.productModel.productId)
+                  .collection('review')
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Error"),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.waiting){
+                  return Container(
+                    height: Get.height / 5,
+                    child: Center(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  );
+                }
+                if(snapshot.data!.docs.isEmpty){
+                  return Center(child: Text("No reviews found!"),
+                  );
+                }
+
+                if(snapshot.data != null) {
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index){
+                      var data = snapshot.data!.docs[index];
+                      ReviewsModel reviewModel = ReviewsModel(
+                          customerName: data['customerName'],
+                          customerPhone: data['customerPhone'],
+                          customerDeviceToken: data['customerDeviceToken'],
+                          customerId: data['customerId'],
+                          feedback: data['feedback'],
+                          rating: data['rating'],
+                          createdAt: data['createdAt'],
+                      );
+                      return Card(
+                        elevation: 5,
+                        child: ListTile(
+                          leading: CircleAvatar(child: Text(reviewModel.customerName[0]),
+                          ),
+                          title: Text(reviewModel.customerName),
+                          subtitle: Text(reviewModel.feedback),
+                          trailing: Text(reviewModel.rating),
+                        ),
+                      );
+                    },
+                  );
+                }
+                return Container();
+              },
+            ),
           ],
         ),
       ),
