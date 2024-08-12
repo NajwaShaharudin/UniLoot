@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:uni_loot/controllers/rating_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/models/reviews_model.dart';
@@ -19,12 +21,15 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
 
-  User? user=FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    CalculateProductRatingController calculateProductRatingController = Get.put(
+        CalculateProductRatingController(widget.productModel.productId));
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppConstant.appMainColor,
+      appBar: AppBar(
+        backgroundColor: AppConstant.appMainColor,
         title: const Text("Item Details"),
         actions: [
           GestureDetector(
@@ -87,6 +92,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           const Icon(Icons.favorite_outline)
                         ],
                       ),
+                    ),
+                  ),
+                  //review
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: RatingBar.builder(
+                      glow: false,
+                        ignoreGestures: true,
+                        initialRating: 2.3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                       allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 25,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (value){},
                     ),
                   ),
                   Padding(
@@ -175,13 +200,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 if (snapshot.connectionState == ConnectionState.waiting){
                   return Container(
                     height: Get.height / 5,
-                    child: Center(
+                    child: const Center(
                       child: CupertinoActivityIndicator(),
                     ),
                   );
                 }
                 if(snapshot.data!.docs.isEmpty){
-                  return Center(child: Text("No reviews found!"),
+                  return const Center(child: Text("No reviews found!"),
                   );
                 }
 
