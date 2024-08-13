@@ -3,9 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:uni_loot/controllers/rating_controller.dart';
 import 'package:uni_loot/models/cart_model.dart';
 import 'package:uni_loot/models/product_model.dart';
 import 'package:uni_loot/models/reviews_model.dart';
@@ -25,8 +23,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    CalculateProductRatingController calculateProductRatingController =
-    Get.put(CalculateProductRatingController(widget.productModel.productId));
+    // CalculateProductRatingController calculateProductRatingController =
+    // Get.put(CalculateProductRatingController(widget.productModel.productId));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppConstant.appMainColor,
@@ -95,33 +93,33 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   //review
-                    Row(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: RatingBar.builder(
-                            glow: false,
-                            ignoreGestures: true,
-                            initialRating: double.parse(
-                                calculateProductRatingController.averageRating
-                                    .toString()),
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemSize: 25,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 2.0),
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            onRatingUpdate: (value) {},
-                          ),
-                        ),
-                        Text(calculateProductRatingController.averageRating.toString()),
-                      ],
-                    ),
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //         alignment: Alignment.topLeft,
+                  //         child: RatingBar.builder(
+                  //           glow: false,
+                  //           ignoreGestures: true,
+                  //           initialRating: double.parse(
+                  //               calculateProductRatingController.averageRating
+                  //                   .toString()),
+                  //           minRating: 1,
+                  //           direction: Axis.horizontal,
+                  //           allowHalfRating: true,
+                  //           itemCount: 5,
+                  //           itemSize: 25,
+                  //           itemPadding:
+                  //               const EdgeInsets.symmetric(horizontal: 2.0),
+                  //           itemBuilder: (context, _) => const Icon(
+                  //             Icons.star,
+                  //             color: Colors.amber,
+                  //           ),
+                  //           onRatingUpdate: (value) {},
+                  //         ),
+                  //       ),
+                  //       Text(calculateProductRatingController.averageRating.toString()),
+                  //     ],
+                  //   ),
 
                     Padding(
                     padding: const EdgeInsets.all(8.0),
