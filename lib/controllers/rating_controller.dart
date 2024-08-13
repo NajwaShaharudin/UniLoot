@@ -26,12 +26,27 @@ class CalculateProductRatingController extends GetxController{
         double totalRating = 0;
         int numberOfReviews = 0;
         snapshot.docs.forEach((doc) {
-          final ratingAsString = doc['rating'] as String;
-          //convert string rating to double
-          final rating = double.tryParse(ratingAsString);
-          if (rating != null) {
+          final rating = doc['rating'];
+          if (rating is double) {
             totalRating += rating;
             numberOfReviews++;
+          } else if (rating is String) {
+            try {
+              final parsedRating = double.tryParse(rating);
+              if (parsedRating != null) {
+                totalRating += parsedRating;
+                numberOfReviews++;
+              } else {
+                // Handle case where parsing fails (log error, etc.)
+                print("Error parsing rating: $rating");
+              }
+            } catch (e) {
+              // Handle potential exception during parsing
+              print("Error parsing rating: $rating ($e)");
+            }
+          } else {
+            // Handle unexpected data type for rating
+            print("Unexpected data type for rating: ${doc['rating']}");
           }
         });
         if (numberOfReviews != 0) {
@@ -40,8 +55,8 @@ class CalculateProductRatingController extends GetxController{
           averageRating.value = 0.0;
         }
       } else {
-          averageRating.value = 0.0;
+        averageRating.value = 0.0;
       }
-      });
-    }
+    });
   }
+}
