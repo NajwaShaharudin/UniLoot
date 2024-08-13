@@ -6,6 +6,7 @@ import 'package:uni_loot/firebase_options.dart';
 import 'package:uni_loot/screens/auth_ui/splash_screen.dart';
 
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
